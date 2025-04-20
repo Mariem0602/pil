@@ -1,0 +1,83 @@
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct cellule{
+    int val;
+    struct cellule *suiv;
+}cellule;
+typedef struct Pile{
+    cellule *sommet;
+}Pile;
+void Initialiser(Pile *p){
+    p->sommet=NULL;
+    
+}
+int Nb_Elements_Pile (Pile p){
+  
+    cellule *neuw= p.sommet;
+   
+    int c=0;
+    while (neuw!=NULL){
+        c++;
+        neuw=neuw->suiv;
+    }return c;
+}
+void Afficher_Pile(Pile p) {
+   cellule *tmp = p.sommet;
+while (tmp != NULL) {
+    printf("%d\n", tmp->val);
+    tmp = tmp->suiv;
+}
+}
+void Empiler(int x, Pile *p){
+     cellule *neuw=(cellule*)malloc(sizeof(cellule));
+     neuw->val=x;
+    neuw->suiv=p->sommet;
+    p->sommet=neuw;
+    
+    
+}
+void Depiler( Pile *p){
+    if(p->sommet ==NULL){
+        printf("la pile est vide");
+    }
+    cellule *neuw=p->sommet;
+   
+    p->sommet=p->sommet->suiv;
+    free(neuw);
+    
+}
+
+int main() {
+    Pile p;
+    Initialiser(&p);
+    printf("si tu veux empiler saisir 1: ");
+    int choix;
+    scanf("%d",&choix);
+    while(choix==1){
+        printf("entrer l'elemment que tu veux l'empiler");
+        int x;
+        scanf("%d",&x);
+        Empiler(x,&p);
+         printf("si tu veux empiler saisir 1: ");
+    scanf("%d",&choix);
+    }
+    printf("voila la pile avant la depiler:\n");
+    Afficher_Pile( p);
+    printf("si tu veux dempiler saisir 0: ");
+    scanf("%d",&choix);
+    while(choix==0){
+        Depiler(&p);
+         printf("si tu veux empiler saisir 0: ");
+    scanf("%d",&choix);
+    }printf("voila la pile apres la depiler:\n");
+    Afficher_Pile( p); 
+    int n;
+    n=Nb_Elements_Pile(p);
+    printf("voici le nb elemment de la pile:%d",n);
+    
+    // Write C code here
+    printf("Try programiz.pro");
+
+    return 0;
+}
