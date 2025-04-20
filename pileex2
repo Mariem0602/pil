@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct cellule {
+    int val;
+    struct cellule *suiv;
+} cellule;
+
+typedef struct Pile {
+    cellule *sommet;
+} Pile;
+
+void initialiser(Pile *p) {
+    p->sommet = NULL;
+}
+
+Pile *empiler(Pile *p) {
+    printf("Entrer la valeur à ajouter : ");
+    int x;
+    scanf("%d", &x);
+    cellule *neux = (cellule *)malloc(sizeof(cellule));
+    neux->val = x;
+    neux->suiv = p->sommet;
+    p->sommet = neux;
+    return p;
+}
+
+Pile *depiler(Pile *p) {
+    if (p->sommet == NULL) {
+        printf("Pile vide, rien à dépiler.\n");
+        return p;
+    }
+    cellule *temp = p->sommet;
+    p->sommet = p->sommet->suiv;
+    free(temp);
+    return p;
+}
+
+void afficher(Pile *p) {
+    cellule *temp = p->sommet;
+    printf("Contenu de la pile :\n");
+    while (temp != NULL) {
+        printf("%d\n", temp->val);
+        temp = temp->suiv;
+    }
+}
+
+int max(Pile *p) {
+    if (p->sommet == NULL) {
+        printf("Pile vide, pas de max.\n");
+        return -1;
+    }
+    cellule *temp = p->sommet->suiv;
+    int maximum = p->sommet->val;
+    while (temp != NULL) {
+        if (temp->val > maximum) {
+            maximum = temp->val;
+        }
+        temp = temp->suiv;
+    }
+    return maximum;
+}
+
+int main() {
+    Pile *p = (Pile *)malloc(sizeof(Pile));
+    initialiser(p);
+
+    p = empiler(p);
+    p = empiler(p);
+
+    afficher(p);
+
+    p = depiler(p);
+    afficher(p);
+
+    int n = max(p);
+    if (n != -1)
+        printf("Le max de la pile : %d\n", n);
+
+    return 0;
+}
