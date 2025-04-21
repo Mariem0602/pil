@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct cellule{
+    char val[100];
+    struct cellule* suiv; 
+}cellule;
+typedef struct pile{
+    cellule* sommet;
+}pile;
+ void Initialiserla_pile (pile* p){
+   
+    p->sommet=NULL;
+}
+pile * empiler(pile* p,char x[]){
+    cellule* neuw=(cellule*)malloc(sizeof(cellule));
+  strcpy(neuw->val, x);
+    neuw->suiv=p->sommet;
+    p->sommet=neuw;
+    return p;
+}
+pile *Dépiler (pile *p) {
+    cellule* neuw=p->sommet;
+    p->sommet=p->sommet->suiv;
+    free(neuw);
+    return p;
+    
+}
+void Afficher_la_pile (pile *p){
+    cellule*temp=p->sommet;
+    while(temp!=NULL){
+       printf("%s\n",temp->val);
+       temp=temp->suiv;
+    }
+}
+    
+void Regarder_le_sommet(pile* p){
+    printf("%s",p->sommet->val);
+}
+    
+void Libération_de_la_mémoire(pile *p){
+    cellule* temp;
+    while (p->sommet != NULL) {
+        temp = p->sommet;
+        p->sommet = p->sommet->suiv;
+        free(temp);
+    }
+    free(p);
+}
+int main() {pile *p=(pile*)malloc(sizeof(pile));
+Initialiserla_pile (p);
+printf("si un travail est ajouter saisir 1: ");
+int x;
+scanf("%d",&x);
+while(x==1){
+    printf("entrer le travail a ajouter: ");
+    char ch[100];
+    scanf("%s",ch);
+    p=empiler(p, ch);
+    printf("si un travail est ajouter saisir 1: ");
+scanf("%d",&x);
+    
+}
+Afficher_la_pile (p);
+printf("si tu as finis un travail saisi 0");
+int n;
+scanf("%d",&n);
+while(n==0){
+    p=Dépiler (p);
+    p=empiler(p, "terminer");
+    printf("si tu as finis un travail saisi 0");
+scanf("%d",&n);
+}
+Afficher_la_pile (p);
+
+
+    // Write C code here
+    printf("Try programiz.pro");
+
+    return 0;
+}
