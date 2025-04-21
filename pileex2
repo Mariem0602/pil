@@ -14,10 +14,8 @@ void initialiser(Pile *p) {
     p->sommet = NULL;
 }
 
-Pile *empiler(Pile *p) {
-    printf("Entrer la valeur à ajouter : ");
-    int x;
-    scanf("%d", &x);
+Pile *empiler(Pile *p,int x) {
+   
     cellule *neux = (cellule *)malloc(sizeof(cellule));
     neux->val = x;
     neux->suiv = p->sommet;
@@ -60,22 +58,54 @@ int max(Pile *p) {
     }
     return maximum;
 }
+void separer(Pile * p){
+   Pile *p1 = (Pile *)malloc(sizeof(Pile)); // pour les > 0
+    Pile *p2 = (Pile *)malloc(sizeof(Pile)); // pour les <= 0
+    initialiser(p1);
+    initialiser(p2);
+  cellule* actuel=p->sommet;
+   
+    while(actuel!=NULL){
+        if(actuel->val %2==0){
+           p1= empiler(p1, actuel->val);
+        }else{
+           p2= empiler(p2, actuel->val);  
+        }actuel=actuel->suiv;
+    }
+   printf("Voici la pile des valeurs PAIRE :\n");
+    afficher(p1);
+
+    printf("Voici la pile des valeurs IMPAIRE:\n");
+    afficher(p2);
+        
+    
+    
+}
 
 int main() {
     Pile *p = (Pile *)malloc(sizeof(Pile));
     initialiser(p);
+     printf("Entrer la valeur à ajouter : ");
+    int x;
+    scanf("%d", &x);
 
-    p = empiler(p);
-    p = empiler(p);
+    p = empiler(p,x);
+    printf("Entrer la valeur à ajouter : ");
+    
+    scanf("%d", &x);
+    p = empiler(p,x);
 
     afficher(p);
+    separer( p);
+    int n = max(p);
+    if (n != -1)
+        printf("Le max de la pile : %d\n", n);
 
     p = depiler(p);
     afficher(p);
 
-    int n = max(p);
-    if (n != -1)
-        printf("Le max de la pile : %d\n", n);
+    
+        
 
     return 0;
 }
